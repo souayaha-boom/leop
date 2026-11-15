@@ -1,0 +1,47 @@
+<div class="login-wrapper">
+  <div class="login-card">
+    <div class="login-header">
+      <a routerLink="/" class="logo-link">
+        <img src="assets/leop/logo-leop-transparent.png" alt="Leop Consulting" class="login-logo">
+      </a>
+      <h2>Espace Consultant & Client</h2>
+      <p>Connectez-vous pour accéder à votre plateforme Leop-Consulting</p>
+    </div>
+
+    <form (ngSubmit)="onLogin()" class="login-form">
+      <div class="form-group">
+        <label for="email">Adresse email</label>
+        <div class="input-icon-wrap">
+          <i class="far fa-envelope"></i>
+          <input type="email" id="email" [(ngModel)]="email" name="email" placeholder="votre.nom@entreprise.com" required>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="label-row">
+          <label for="password">Mot de passe</label>
+          <a href="javascript:void(0)" class="forgot-link">Mot de passe oublié ?</a>
+        </div>
+        <div class="input-icon-wrap">
+          <i class="fas fa-lock"></i>
+          <input type="password" id="password" [(ngModel)]="password" name="password" placeholder="••••••••" required>
+        </div>
+      </div>
+
+      <div class="error-banner" *ngIf="errorMessage">
+        <i class="fas fa-exclamation-circle"></i> {{ errorMessage }}
+      </div>
+
+      <button type="submit" class="btn-submit" [disabled]="isLoading">
+        <span *ngIf="!isLoading">Se connecter <i class="fas fa-arrow-right"></i></span>
+        <span *ngIf="isLoading"><i class="fas fa-spinner fa-spin"></i> Connexion en cours...</span>
+      </button>
+
+      <div class="login-footer">
+        <a routerLink="/" class="back-home-link">
+          <i class="fas fa-arrow-left"></i> Retour à l'accueil Leop-Consulting
+        </a>
+      </div>
+    </form>
+  </div>
+</div>

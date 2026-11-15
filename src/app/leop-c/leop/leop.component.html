@@ -1,0 +1,950 @@
+<div class="leop-page">
+
+  <!-- ==================== TOP NAVIGATION ==================== -->
+  <header class="leop-header">
+    <div class="leop-container header-container">
+      <a routerLink="/leop-consulting/home" class="leop-logo-wrap">
+        <img src="assets/leop/emblem-transparent.png" alt="Leop Consulting Logo" class="leop-header-emblem" />
+        <div class="leop-logo-text">
+          <span class="brand-name">LEOP-CONSULTING</span>
+          <span class="brand-tagline">YOUR STRATEGY</span>
+        </div>
+      </a>
+
+      <nav class="leop-nav" [class.nav-open]="isMobileMenuOpen">
+        <ul class="nav-links">
+          <li class="nav-item has-dropdown" (mouseenter)="activeDropdown = 'candidats'"
+            (mouseleave)="activeDropdown = null">
+            <a href="javascript:void(0)" class="nav-link">
+              <span>Candidats</span>
+              <i class="fas fa-chevron-down nav-arrow"></i>
+            </a>
+            <div class="nav-dropdown" *ngIf="activeDropdown === 'candidats'">
+              <a (click)="scrollToSection('search-jobs')"><i class="fas fa-search"></i> Offres d'emploi</a>
+              <a (click)="openCvModal()"><i class="fas fa-file-upload"></i> Déposer un CV</a>
+              <a (click)="scrollToSection('articles-section')"><i class="fas fa-lightbulb"></i> Conseils Carrière</a>
+              <a (click)="scrollToSection('salary-section')"><i class="fas fa-chart-line"></i> Grilles de salaires</a>
+            </div>
+          </li>
+
+          <li class="nav-item has-dropdown" (mouseenter)="activeDropdown = 'recrutement'"
+            (mouseleave)="activeDropdown = null">
+            <a href="javascript:void(0)" class="nav-link">
+              <span>Recrutement</span>
+              <i class="fas fa-chevron-down nav-arrow"></i>
+            </a>
+            <div class="nav-dropdown" *ngIf="activeDropdown === 'recrutement'">
+              <a (click)="scrollToSection('solutions-section')"><i class="fas fa-briefcase"></i> Solutions RH</a>
+              <a (click)="openRecruitModal()"><i class="fas fa-handshake"></i> Recruter un talent</a>
+              <a (click)="scrollToSection('solutions-section')"><i class="fas fa-user-tie"></i> Management de
+                transition</a>
+            </div>
+          </li>
+
+          <li class="nav-item">
+            <a (click)="scrollToSection('trends-section')" class="nav-link">Études et conseils</a>
+          </li>
+
+          <li class="nav-item">
+            <a (click)="scrollToSection('why-us-section')" class="nav-link">À propos</a>
+          </li>
+        </ul>
+
+        <div class="nav-mobile-actions">
+          <a routerLink="/login" class="btn-leop-login">Connexion</a>
+          <button type="button" class="btn-leop-cv" (click)="openCvModal()">Déposer un CV</button>
+        </div>
+      </nav>
+
+      <div class="header-right-desktop">
+        <a routerLink="/login" class="btn-leop-login">Connexion</a>
+        <button type="button" class="btn-leop-cv" (click)="openCvModal()">Déposer un CV</button>
+        <button type="button" class="mobile-toggle-btn" (click)="toggleMobileMenu()" aria-label="Menu">
+          <i class="fas" [ngClass]="isMobileMenuOpen ? 'fa-times' : 'fa-bars'"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==================== HERO SECTION ==================== -->
+  <section class="leop-hero">
+    <div class="hero-bg-overlay">
+      <img src="assets/leop/hero-team.jpg" alt="Leop-Consulting Your Strategy Team" class="hero-img-bg" />
+      <div class="hero-gradient-mask"></div>
+    </div>
+
+    <!-- Decorative Gold Swoosh Accent from flyer -->
+    <div class="hero-gold-swoosh"></div>
+
+    <div class="leop-container hero-container">
+      <div class="hero-content">
+        <div class="hero-pill-badge">
+          <i class="fas fa-shield-alt"></i>
+          <span>Votre partenaire de confiance</span>
+        </div>
+
+        <h1 class="hero-title">
+          Pour une entreprise <br />
+          <span class="hero-highlight-gold">plus performante !</span>
+        </h1>
+
+        <p class="hero-subtitle">
+          Chez <strong>LEOP-CONSULTING</strong>, nous mettons notre expertise à votre service pour relever vos défis et
+          construire ensemble votre succès.
+        </p>
+
+        <div class="hero-actions">
+          <button type="button" class="btn-hero-teal" (click)="scrollToSection('search-jobs')">
+            <i class="fas fa-search"></i> Je cherche un emploi
+          </button>
+          <button type="button" class="btn-hero-gold" (click)="openRecruitModal()">
+            <i class="fas fa-briefcase"></i> Je cherche à recruter
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== SEARCH & OFFRES PREMIUM ==================== -->
+  <section class="leop-search-section" id="search-jobs">
+    <div class="leop-container">
+      <div class="search-header-box">
+        <h2 class="search-title">Et si votre prochain job commençait ici ?</h2>
+
+        <!-- Search Bar -->
+        <div class="search-bar-unified">
+          <div class="search-field field-keyword">
+            <label class="field-label">Que recherchez-vous ?</label>
+            <input type="text" [(ngModel)]="searchKeyword" placeholder="Métier, Secteur, Mot-clé..."
+              (keyup.enter)="onSearch()" />
+          </div>
+
+          <div class="search-divider"></div>
+
+          <div class="search-field field-location">
+            <label class="field-label">Où ?</label>
+            <input type="text" [(ngModel)]="searchLocation" placeholder="Région, ville..." (keyup.enter)="onSearch()" />
+          </div>
+
+          <button type="button" class="btn-search-submit" (click)="onSearch()">
+            <span>Rechercher</span>
+          </button>
+        </div>
+
+        <!-- Filter Dropdown Links -->
+        <div class="search-filters-row">
+          <div class="filter-dropdown-pill">
+            <span>Offres d'emploi par secteur</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="filter-dropdown-pill">
+            <span>Offres d'emploi par localisation</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="filter-dropdown-pill">
+            <span>Offres d'emploi par métier</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- Offres Premium Header -->
+      <div class="premium-jobs-header">
+        <div class="premium-title-wrap">
+          <span class="title-gold-dot"></span>
+          <h3 class="premium-title">Offres Premium</h3>
+        </div>
+        <div class="carousel-nav-arrows">
+          <button type="button" class="arrow-btn arrow-prev" (click)="prevJobSlide()" [disabled]="currentJobSlide === 0"
+            title="Précédent">
+            <i class="fas fa-chevron-left"></i>
+          </button>
+          <button type="button" class="arrow-btn arrow-next" (click)="nextJobSlide()" title="Suivant">
+            <i class="fas fa-chevron-right"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Offres Premium Cards Carousel -->
+      <div class="premium-cards-wrapper">
+        <div class="premium-cards-track" [style.transform]="'translateX(-' + (currentJobSlide * 350) + 'px)'">
+          <div class="job-card-premium" *ngFor="let job of premiumJobs">
+            <div class="card-top-row">
+              <span class="job-badge" *ngIf="job.badge">{{ job.badge }}</span>
+              <span class="job-badge badge-default" *ngIf="!job.badge">Recrutement Exclusif</span>
+              <button type="button" class="btn-favorite" (click)="toggleFavorite(job, $event)"
+                [class.active]="job.isFavorite" title="Ajouter aux favoris">
+                <i [ngClass]="job.isFavorite ? 'fas fa-heart' : 'far fa-heart'"></i>
+              </button>
+            </div>
+
+            <h4 class="job-card-title">{{ job.title }}</h4>
+
+            <div class="job-meta-list">
+              <div class="meta-item">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>{{ job.location }}</span>
+              </div>
+              <div class="meta-item">
+                <i class="fas fa-briefcase"></i>
+                <span>{{ job.contract }}</span>
+              </div>
+              <div class="meta-item meta-salary">
+                <i class="fas fa-euro-sign"></i>
+                <span>{{ job.salary }}</span>
+              </div>
+              <div class="meta-item meta-remote" *ngIf="job.remote">
+                <i class="fas fa-home"></i>
+                <span>{{ job.remote }}</span>
+              </div>
+            </div>
+
+            <div class="card-bottom-action">
+              <button type="button" class="btn-card-apply" routerLink="/jobs">Voir l'offre</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== BRAND STORY / FLYER BANNER ==================== -->
+  <section class="leop-story-section">
+    <div class="leop-container">
+      <div class="story-duo-card">
+        <div class="story-text-col">
+          <div class="story-brand-badge">
+            <img src="assets/leop/emblem-transparent.png" alt="Leop" class="story-emblem-mini" />
+            <span>LEOP-CONSULTING</span>
+          </div>
+
+          <h3 class="story-title">Vous remarquez un changement ?</h3>
+          <p class="story-desc">
+            Depuis notre création, nous facilitons la rencontre entre les entreprises qui recrutent et les
+            professionnels en recherche d'emploi.
+          </p>
+          <p class="story-desc highlight-brand">
+            Aujourd'hui, nous réunissons toutes nos expertises sous une seule marque : <strong>Leop-Consulting — Your
+              Strategy</strong>.
+          </p>
+          <div class="story-motto-box">
+            <i class="fas fa-quote-left motto-icon"></i>
+            <span class="motto-text">Ensemble, construisons votre avenir.</span>
+          </div>
+        </div>
+
+        <div class="story-video-col" (click)="openVideoModal()">
+          <div class="video-preview-wrap">
+            <img src="assets/leop/video-thumb.jpg" alt="Connecting talent" class="video-cover-img" />
+            <div class="video-overlay-text">Connecting talent</div>
+            <div class="video-play-btn">
+              <i class="fas fa-play"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 3 PILLARS / FLYER & PDF HIGHLIGHT ==================== -->
+  <section class="leop-pillars-section">
+    <div class="leop-container">
+      <div class="pillars-grid-3">
+        <div class="pillar-card">
+          <div class="pillar-icon-box">
+            <i class="fas fa-users"></i>
+          </div>
+          <span class="pillar-number">01</span>
+          <h4 class="pillar-title">Recrutement</h4>
+          <p class="pillar-desc">Identifier et intégrer les talents techniques et managériaux clés.</p>
+        </div>
+
+        <div class="pillar-card">
+          <div class="pillar-icon-box">
+            <i class="fas fa-chart-line"></i>
+          </div>
+          <span class="pillar-number">02</span>
+          <h4 class="pillar-title">Consulting</h4>
+          <p class="pillar-desc">Optimiser vos processus industriels et piloter vos projets structurants.</p>
+        </div>
+
+        <div class="pillar-card">
+          <div class="pillar-icon-box">
+            <i class="fas fa-graduation-cap"></i>
+          </div>
+          <span class="pillar-number">03</span>
+          <h4 class="pillar-title">Formation</h4>
+          <p class="pillar-desc">Développer durablement les compétences opérationnelles de vos équipes.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== EXPERTISES SECTORIELLES POINTUES (PLASTURGIE & USINAGE) ==================== -->
+  <section class="leop-industry-specialties">
+    <div class="leop-container">
+      <div class="industry-heading-center">
+        <div class="industry-badge">
+          <i class="fas fa-industry"></i>
+          <span>PRÉSENTATION OFFICIELLE & SECTEURS INDUSTRIELS</span>
+        </div>
+        <h2 class="industry-title">Nos expertises sectorielles pointues</h2>
+        <p class="industry-subtitle">
+          Cabinet dédié aux acteurs de l'industrie et de la plasturgie, LeoP-Consulting accompagne les dirigeants, DRH
+          et responsables d'exploitation à chaque étape de leur développement opérationnel et humain.
+        </p>
+      </div>
+
+      <div class="specialties-grid-2">
+        <!-- Box Plasturgie -->
+        <div class="specialty-card-box plasturgie-box">
+          <div class="specialty-card-header">
+            <div class="specialty-icon-circle">
+              <i class="fas fa-shapes"></i>
+            </div>
+            <div>
+              <span class="specialty-tag">Spécialisation Industrie</span>
+              <h3 class="specialty-name">Points spécifiques plasturgie</h3>
+            </div>
+          </div>
+          <div class="specialty-card-body">
+            <p>
+              Nous vous proposons l'analyse de vos pièces plastiques avant la conception de vos outils pour
+              l'optimisation de votre production, la simplification de vos outillages et de leurs maintenances, ainsi
+              que l'analyse des conceptions de vos outillages.
+            </p>
+            <p>
+              Nous dispensons également des formations spécifiques pour le polissage « de l'état de surface de démoulage
+              jusqu'au poli-optique », ainsi qu'une méthodologie de maintenance incluant le suivi et la planification.
+            </p>
+          </div>
+          <div class="specialty-features-list">
+            <div class="feature-item"><i class="fas fa-check-circle"></i> Optimisation production & conception
+              outillages</div>
+            <div class="feature-item"><i class="fas fa-check-circle"></i> Polissage du démoulage jusqu'au poli-optique
+            </div>
+            <div class="feature-item"><i class="fas fa-check-circle"></i> Méthodologie & maintenance préventive
+              planifiée</div>
+          </div>
+        </div>
+
+        <!-- Box Usinage -->
+        <div class="specialty-card-box usinage-box">
+          <div class="specialty-card-header">
+            <div class="specialty-icon-circle">
+              <i class="fas fa-cogs"></i>
+            </div>
+            <div>
+              <span class="specialty-tag">Spécialisation Usinage</span>
+              <h3 class="specialty-name">Points spécifiques usinage</h3>
+            </div>
+          </div>
+          <div class="specialty-card-body">
+            <p>
+              Le choix du bon outil de coupe suivant la matière et la finition demandée est essentiel pour obtenir le
+              résultat et la qualité exigés.
+            </p>
+            <p>
+              La stratégie des parcours d'usinage et des conditions de coupe constitue un élément primordial pour tenir
+              la géométrie et l'état de surface souhaités. Nous vous apportons notre expertise complète dans ces
+              domaines.
+            </p>
+          </div>
+          <div class="specialty-features-list">
+            <div class="feature-item"><i class="fas fa-check-circle"></i> Choix stratégique des outils de coupe &
+              matières</div>
+            <div class="feature-item"><i class="fas fa-check-circle"></i> Stratégie des parcours & conditions de coupe
+            </div>
+            <div class="feature-item"><i class="fas fa-check-circle"></i> Maîtrise des tolérances géométriques & états
+              de surface</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== NOS SOLUTIONS RH POUR LES ENTREPRISES ==================== -->
+  <section class="leop-solutions-section" id="solutions-section">
+    <div class="leop-container">
+      <div class="section-heading-center">
+        <h2 class="section-title-dark">Nos solutions RH pour les entreprises</h2>
+        <p class="section-subtitle-muted">
+          Ce qui compte vraiment : le bon interlocuteur, la bonne solution, pour vous aider à prendre la bonne décision.
+        </p>
+      </div>
+
+      <!-- Tabs Navigation -->
+      <div class="solutions-tabs-nav">
+        <button type="button" class="solution-tab-btn" [class.active]="activeSolutionTab === 'specialises'"
+          (click)="activeSolutionTab = 'specialises'">
+          Recrutements spécialisés
+        </button>
+        <button type="button" class="solution-tab-btn" [class.active]="activeSolutionTab === 'dirigeants'"
+          (click)="activeSolutionTab = 'dirigeants'">
+          Recrutements dirigeants
+        </button>
+        <button type="button" class="solution-tab-btn" [class.active]="activeSolutionTab === 'rpo'"
+          (click)="activeSolutionTab = 'rpo'">
+          RPO & Recrutements volumiques
+        </button>
+      </div>
+
+      <p class="solutions-intro-line">
+        CDI, intérim, management de transition : vous avez un besoin ? Nous avons la solution.
+      </p>
+
+      <!-- Solutions 2x2 Grid -->
+      <div class="solutions-grid-2x2">
+        <div class="solution-card-pro" (click)="openRecruitModal()">
+          <div class="solution-img-box">
+            <img src="assets/leop/solution-cdi.png" alt="Recrutement CDI" class="solution-photo" />
+          </div>
+          <div class="solution-content-box">
+            <h4 class="solution-name">CDI</h4>
+            <p class="solution-text">Trouvez les talents et les compétences qui feront grandir votre organisation.</p>
+            <div class="solution-arrow"><i class="fas fa-arrow-up-right-from-square"></i></div>
+          </div>
+        </div>
+
+        <div class="solution-card-pro" (click)="openRecruitModal()">
+          <div class="solution-img-box">
+            <img src="assets/leop/solution-interim.png" alt="Recrutement Intérim" class="solution-photo" />
+          </div>
+          <div class="solution-content-box">
+            <h4 class="solution-name">Intérim</h4>
+            <p class="solution-text">Renforcez sans délai vos équipes avec des profils immédiatement pertinents.</p>
+            <div class="solution-arrow"><i class="fas fa-arrow-up-right-from-square"></i></div>
+          </div>
+        </div>
+
+        <div class="solution-card-pro" (click)="openRecruitModal()">
+          <div class="solution-img-box">
+            <img src="assets/leop/solution-transition.png" alt="Management de transition" class="solution-photo" />
+          </div>
+          <div class="solution-content-box">
+            <h4 class="solution-name">Management de transition</h4>
+            <p class="solution-text">Sécurisez vos transformations avec des experts et dirigeants immédiatement
+              opérationnels.</p>
+            <div class="solution-arrow"><i class="fas fa-arrow-up-right-from-square"></i></div>
+          </div>
+        </div>
+
+        <div class="solution-card-pro" (click)="openRecruitModal()">
+          <div class="solution-img-box">
+            <img src="assets/leop/solution-conseil-rh.png" alt="Conseil RH & Assessment" class="solution-photo" />
+          </div>
+          <div class="solution-content-box">
+            <h4 class="solution-name">Conseil RH & Assessment</h4>
+            <p class="solution-text">Optimisez vos processus RH et accompagnez la montée en compétences de vos équipes
+              grâce à des solutions clés en main.</p>
+            <div class="solution-arrow"><i class="fas fa-arrow-up-right-from-square"></i></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="solutions-cta-center">
+        <button type="button" class="btn-discuss-pill" (click)="openRecruitModal()">
+          Discutons-en
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== TENDANCES CLÉS DU TRAVAIL ==================== -->
+  <section class="leop-trends-banner" id="trends-section">
+    <div class="leop-container trends-inner">
+      <h2 class="trends-banner-title">Décryptez les tendances clés du travail</h2>
+
+      <div class="trends-tablet-wrap">
+        <img src="assets/leop/trends-tablet.png" alt="Global Talent Trends 2026" class="trends-tablet-img" />
+      </div>
+
+      <div class="trends-action">
+        <button type="button" class="btn-gold-pill" (click)="scrollToSection('articles-section')">
+          Consultez nos insights
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== POURQUOI CHOISIR LEOP-CONSULTING ? ==================== -->
+  <section class="leop-why-us-section" id="why-us-section">
+    <div class="leop-container">
+      <h2 class="why-us-heading">Pourquoi choisir Leop-Consulting ?</h2>
+
+      <div class="why-cards-showcase">
+        <!-- Card Stat 1 an -->
+        <div class="why-card card-stat-gold">
+          <div class="stat-big-number">1</div>
+          <p class="stat-label">an d'expérience, et des relations qui durent</p>
+        </div>
+
+        <!-- Card Value Teal -->
+        <div class="why-card card-value-teal">
+          <p class="quote-text-white">
+            Fiabilité, transparence, engagement : on dit ce qu'on fait, on fait ce qu'on dit.
+          </p>
+        </div>
+
+        <!-- Card Review 1 - Plasturgie & Outillage -->
+        <div class="why-card card-review-white">
+          <p class="review-body">
+            « Leop-Consulting a une excellente connaissance de notre environnement d'affaires industriel. Notre
+            consultant dédié a analysé nos outillages de plasturgie avant conception avec un niveau d'exigence et
+            d'adéquation remarquable. »
+          </p>
+          <span class="review-author">Directeur de Site Industriel — Plasturgie & Injection</span>
+        </div>
+
+
+
+        <!-- Card Review 3 - Conditions de coupe & Outillage -->
+        <div class="why-card card-review-white">
+          <p class="review-body">
+            « L'accompagnement sur le choix des outils de coupe et les conditions d'usinage nous a fait gagner en
+            précision géométrique et en productivité. Un vrai partenaire de confiance ! »
+          </p>
+          <span class="review-author">Responsable d'Atelier Usinage & Mécanique de Précision</span>
+        </div>
+      </div>
+
+      <div class="why-carousel-controls">
+        <button type="button" class="btn-nav-circle" (click)="prevTestimonial()" title="Précédent"><i
+            class="fas fa-chevron-left"></i></button>
+        <button type="button" class="btn-nav-circle" (click)="nextTestimonial()" title="Suivant"><i
+            class="fas fa-chevron-right"></i></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== ÉTUDE DES SALAIRES 2027 ==================== -->
+  <section class="leop-salary-section" id="salary-section">
+    <div class="leop-container salary-inner">
+      <div class="salary-text-col">
+        <h2 class="salary-title">Quels salaires feront la différence en 2027 ?</h2>
+        <p class="salary-subtitle">
+          Zoom sur les salaires moyens de près de 900 métiers et les dernières tendances du marché de l'emploi.
+        </p>
+        <div class="salary-cta">
+          <button type="button" class="btn-teal-pill" (click)="openCvModal()">
+            Consultez notre étude
+          </button>
+        </div>
+      </div>
+
+      <div class="salary-visual-col">
+        <div class="confetti-backdrop">
+          <img src="assets/leop/salary-phone.png" alt="Étude de rémunérations" class="floating-phone-img" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== LE REGARD DE NOS EXPERTS ==================== -->
+  <section class="leop-articles-section" id="articles-section">
+    <div class="leop-container">
+      <h2 class="articles-main-title">Le regard de nos experts sur le recrutement</h2>
+
+      <div class="articles-grid-6">
+        <!-- Article 1 -->
+        <article class="article-card-pro">
+          <div class="art-thumb-box">
+            <img src="assets/leop/article-1.png" alt="Étude de rémunérations" class="art-thumb" />
+          </div>
+          <div class="art-body">
+            <h4 class="art-title">Étude de rémunérations : nos grilles de salaires</h4>
+            <p class="art-excerpt">Quels postes verront leurs rémunérations évoluer cette année ?</p>
+            <div class="art-footer">Par Leop-Consulting | 4 minute(s)</div>
+          </div>
+        </article>
+
+        <!-- Article 2 -->
+        <article class="article-card-pro">
+          <div class="art-thumb-box">
+            <img src="assets/leop/article-2.png" alt="Talent Trends 2026" class="art-thumb" />
+          </div>
+          <div class="art-body">
+            <h4 class="art-title">Talent Trends 2026</h4>
+            <p class="art-excerpt">Envie d'avoir toutes les clés pour 2026 ? Découvrez comment recruter sans vous
+              tromper.</p>
+            <div class="art-footer">Par Leop-Consulting</div>
+          </div>
+        </article>
+
+        <!-- Article 3 -->
+        <article class="article-card-pro">
+          <div class="art-thumb-box">
+            <img src="assets/leop/article-3.png" alt="Top questions entretien" class="art-thumb" />
+          </div>
+          <div class="art-body">
+            <span class="art-badge">Réussir votre entretien</span>
+            <h4 class="art-title">Top questions en entretien d'embauche</h4>
+            <p class="art-excerpt">Découvrez les questions les plus souvent posées par les recruteurs.</p>
+            <div class="art-footer">Par Leop-Consulting | 5 minute(s)</div>
+          </div>
+        </article>
+
+        <!-- Article 4 -->
+        <article class="article-card-pro">
+          <div class="art-thumb-box">
+            <img src="assets/leop/article-4.png" alt="Quel CV pour un cadre" class="art-thumb" />
+          </div>
+          <div class="art-body">
+            <span class="art-badge">Carrière</span>
+            <h4 class="art-title">Quel CV pour un cadre expérimenté ?</h4>
+            <p class="art-excerpt">Quelques conseils et astuces pour réussir à vous démarquer auprès des recruteurs.</p>
+            <div class="art-footer">Par Leop-Consulting | 4 minute(s)</div>
+          </div>
+        </article>
+
+        <!-- Article 5 -->
+        <article class="article-card-pro">
+          <div class="art-thumb-box">
+            <img src="assets/leop/article-5.png" alt="Négocier son salaire" class="art-thumb" />
+          </div>
+          <div class="art-body">
+            <span class="art-badge">Réussir votre entretien</span>
+            <h4 class="art-title">Comment négocier son salaire ?</h4>
+            <p class="art-excerpt">Abordez sereinement le sujet lors de votre entretien d'embauche.</p>
+            <div class="art-footer">Par Leop-Consulting | 4 minute(s)</div>
+          </div>
+        </article>
+
+        <!-- Article 6 : Leop-Consulting CTA Box -->
+        <div class="article-cta-box-gold">
+          <div class="cta-emblem-wrap">
+            <img src="assets/leop/emblem-transparent.png" alt="Leop-Consulting" class="cta-emblem" />
+          </div>
+          <div class="cta-content-bottom">
+            <span class="cta-gold-header">LEOP-CONSULTING</span>
+            <h4 class="cta-gold-title">Des conseils simples pour avancer en toute confiance</h4>
+            <button type="button" class="btn-cta-articles" (click)="scrollToSection('articles-section')">
+              Consulter nos articles
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 3 ACTION CARDS ==================== -->
+  <section class="leop-action-cards-section">
+    <div class="leop-container">
+      <div class="action-cards-grid">
+
+
+        <div class="action-box-white highlight-center">
+          <div class="action-box-icon gold-icon"><i class="fas fa-file-upload"></i></div>
+          <h3 class="action-box-title">Déposer votre CV</h3>
+          <p class="action-box-desc">Soyez visible auprès de nos recruteurs</p>
+          <button type="button" class="btn-action-gold" (click)="openCvModal()">Envoyer votre CV</button>
+        </div>
+
+        <div class="action-box-white">
+          <div class="action-box-icon"><i class="fas fa-handshake"></i></div>
+          <h3 class="action-box-title">Recruter un talent</h3>
+          <p class="action-box-desc">Confiez-nous votre mission stratégique</p>
+          <button type="button" class="btn-action-teal" (click)="openRecruitModal()">Contactez-nous</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== COMPREHENSIVE FOOTER ==================== -->
+  <footer class="leop-footer">
+    <div class="leop-container footer-inner">
+
+      <!-- Top Branding in Footer -->
+      <div class="footer-top-branding">
+        <div class="footer-logo-wrap">
+          <img src="assets/leop/logo-leop-transparent.png" alt="Leop-Consulting Your Strategy"
+            class="footer-full-logo" />
+        </div>
+        <div class="footer-tagline-motto">
+          <span class="motto-handwritten">Ensemble, construisons votre avenir</span>
+          <div class="footer-email-box">
+            <i class="fas fa-envelope email-gold-icon"></i>
+            <a href="mailto:Info@leop-consulting.com">Info&#64;leop-consulting.com</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-columns-row">
+        <!-- Col 1: Candidats & Entreprises & Contact -->
+        <div class="footer-col col-main-links">
+          <div class="footer-block">
+            <h4 class="footer-col-title">Candidats</h4>
+            <ul class="footer-link-list">
+              <li><a (click)="scrollToSection('search-jobs')">Offres d'emploi</a></li>
+              <li><a (click)="openCvModal()">Dépôt de CV</a></li>
+              <li><a routerLink="/TalentMatch">Outil Job Match</a></li>
+              <li><a routerLink="/login">Comment accéder à mon compte</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-block">
+            <h4 class="footer-col-title">Entreprises</h4>
+            <ul class="footer-link-list">
+              <li><a (click)="openRecruitModal()">Vous recrutez ?</a></li>
+              <li><a routerLink="/about">Espace Presse</a></li>
+              <li><a (click)="scrollToSection('trends-section')">Découvrez Leop Insights+</a></li>
+            </ul>
+          </div>
+
+          <!-- Google Rating Widget -->
+          <div class="google-rating-card">
+            <div class="google-badge-top">
+              <span class="g-letter">G</span>
+              <span class="g-text">Google Rating</span>
+            </div>
+            <div class="rating-stars">
+              <span class="rate-num">4.8</span>
+              <div class="stars-gold">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star-half-alt"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Col 2: Secteurs d'activité Part 1 -->
+        <div class="footer-col col-sectors-1">
+          <h4 class="footer-col-title">Nos offres d'emploi</h4>
+          <ul class="footer-link-list">
+            <li><a (click)="scrollToSection('search-jobs')">ADV & Relation Clients</a></li>
+            <li><a (click)="scrollToSection('search-jobs')">Achats & Supply Chain</a></li>
+            <li><a (click)="scrollToSection('search-jobs')">Assistanat, Accueil & Services</a></li>
+            <li><a (click)="scrollToSection('search-jobs')">Assurance</a></li>
+            <li><a (click)="scrollToSection('search-jobs')">Audit & Expertise Comptable</a></li>
+            <li><a (click)="scrollToSection('search-jobs')">Avocats, Juridique & Fiscal</a></li>
+            <li><a (click)="scrollToSection('search-jobs')">Banque & Services Financiers</a></li>
+            <li><a (click)="scrollToSection('search-jobs')">Cabinet de conseil</a></li>
+            <li><a (click)="scrollToSection('search-jobs')">Commercial</a></li>
+            <li><a (click)="scrollToSection('search-jobs')">Construction</a></li>
+            <li><a (click)="scrollToSection('search-jobs')">Dirigeants</a></li>
+            <li><a (click)="scrollToSection('search-jobs')">Distribution & Commerce</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3: Secteurs d'activité Part 2 -->
+        <div class="footer-col col-sectors-2">
+          <h4 class="footer-col-title invisible-title">&nbsp;</h4>
+          <ul class="footer-link-list">
+            <li><a (click)="scrollToSection('search-jobs')">Facility Management</a></li>
+            <li><a (click)="scrollToSection('search-jobs')">Finance & Comptabilité</a></li>
+            <li><a (click)="scrollToSection('search-jobs')">Healthcare & Life Sciences</a></li>
+            <li><a (click)="scrollToSection('search-jobs')">Hôtellerie, Restauration & Tourisme</a></li>
+            <li><a (click)="scrollToSection('search-jobs')">Immobilier</a></li>
+            <li><a (click)="scrollToSection('search-jobs')">Ingénierie & Industries</a></li>
+            <li><a (click)="scrollToSection('search-jobs')">Marketing & Communication</a></li>
+            <li><a (click)="scrollToSection('search-jobs')">Public & Intérêt Général</a></li>
+            <li><a (click)="scrollToSection('search-jobs')">RSE & Développement Durable</a></li>
+            <li><a (click)="scrollToSection('search-jobs')">Ressources Humaines, Paie & ADP</a></li>
+            <li><a (click)="scrollToSection('search-jobs')">Technology</a></li>
+            <li><a (click)="scrollToSection('search-jobs')">Transport & Logistique</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 4: À propos & Légal -->
+        <div class="footer-col col-legal">
+          <div class="footer-block">
+            <h4 class="footer-col-title">À propos</h4>
+            <ul class="footer-link-list">
+              <li><a routerLink="/about">Mentions Légales</a></li>
+              <li><a routerLink="/about">Conditions générales d'utilisation</a></li>
+              <li><a routerLink="/about">Politique des cookies</a></li>
+              <li><a routerLink="/about">Protection des données personnelles</a></li>
+              <li><a routerLink="/about">Plan du site</a></li>
+              <li><a routerLink="/about">Accessibilité</a></li>
+              <li><a routerLink="/about">Speak Up : notre canal d'alerte</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-block">
+            <h4 class="footer-col-title">Sites du Groupe</h4>
+            <ul class="footer-link-list">
+              <li><a routerLink="/about">Investors' Site</a></li>
+              <li><a routerLink="/about">Leop Executive</a></li>
+              <li><a routerLink="/about">Changer de pays</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-social-row">
+            <a href="https://linkedin.com" target="_blank" class="social-icon-btn" aria-label="LinkedIn"><i
+                class="fab fa-linkedin-in"></i></a>
+            <a href="https://instagram.com" target="_blank" class="social-icon-btn" aria-label="Instagram"><i
+                class="fab fa-instagram"></i></a>
+          </div>
+
+          <!-- Ecovadis Badge Mockup -->
+          <div class="ecovadis-badge">
+            <span class="eco-tag">GOLD 2026</span>
+            <span class="eco-brand">ecovadis</span>
+            <span class="eco-sub">Sustainability Rating</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom-bar">
+        <p class="copyright-text">
+          &copy; 2026 LEOP-CONSULTING — YOUR STRATEGY. Tous droits réservés.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==================== MODAL DÉPÔT DE CV ==================== -->
+  <div class="leop-modal-backdrop" *ngIf="showCvModal" (click)="closeCvModal()">
+    <div class="leop-modal-content" (click)="$event.stopPropagation()">
+      <button type="button" class="modal-close-btn" (click)="closeCvModal()">&times;</button>
+      <div class="modal-header">
+        <div class="modal-emblem-wrap">
+          <img src="assets/leop/emblem-transparent.png" alt="Leop" class="modal-emblem" />
+        </div>
+        <h3 class="modal-title">Déposer votre CV</h3>
+        <p class="modal-subtitle">Rejoignez le réseau des meilleurs talents Leop-Consulting</p>
+      </div>
+
+      <div class="modal-alert-success" *ngIf="cvForm.submitted">
+        <i class="fas fa-check-circle"></i>
+        <span>Votre CV a été transmis avec succès à Leop-Consulting ! Votre candidature a bien été enregistrée.</span>
+      </div>
+
+      <div class="modal-alert-error" *ngIf="cvForm.errorMessage" style="color: #b91c1c; background: #fef2f2; border: 1px solid #f87171; padding: 12px 16px; border-radius: 10px; margin-bottom: 16px; font-size: 14px; display: flex; align-items: center; gap: 8px;">
+        <i class="fas fa-exclamation-circle"></i>
+        <span>{{ cvForm.errorMessage }}</span>
+      </div>
+
+      <form class="modal-form" *ngIf="!cvForm.submitted" (ngSubmit)="submitCv()">
+        <div class="form-group">
+          <label>Nom complet *</label>
+          <input type="text" [(ngModel)]="cvForm.fullName" name="fullName" placeholder="Ex: Jean Dupont" required />
+        </div>
+
+        <div class="form-group">
+          <label>Adresse email *</label>
+          <input type="email" [(ngModel)]="cvForm.email" name="email" placeholder="jean.dupont@email.com" required />
+        </div>
+
+        <div class="form-group">
+          <label>Téléphone</label>
+          <input type="tel" [(ngModel)]="cvForm.phone" name="phone" placeholder="+33 6 12 34 56 78" />
+        </div>
+
+        <div class="form-group">
+          <label>Domaine d'expertise</label>
+          <select [(ngModel)]="cvForm.domain" name="domain">
+            <option value="">Sélectionnez un domaine</option>
+            <option value="Plasturgie & Injection">Plasturgie & Injection</option>
+            <option value="Usinage & Programmation FAO">Usinage & Programmation FAO</option>
+            <option value="Outillage & Maintenance">Outillage & Maintenance</option>
+            <option value="Méthodes & Industrialisation">Méthodes & Industrialisation</option>
+            <option value="Ingénierie & Industrie">Ingénierie & Industrie</option>
+            <option value="Direction de Site & Management">Direction de Site & Management</option>
+            <option value="Qualité & Métrologie">Qualité & Métrologie</option>
+          </select>
+        </div>
+
+        <div class="form-group file-upload-group">
+          <label>Votre CV (PDF)</label>
+          <div class="upload-dropzone">
+            <input type="file" id="cvFileInput" (change)="onFileSelected($event)" accept=".pdf,.doc,.docx" />
+            <label for="cvFileInput" class="dropzone-label">
+              <i class="fas fa-cloud-upload-alt upload-icon"></i>
+              <span *ngIf="!cvForm.fileName">Cliquez pour importer votre CV (PDF)</span>
+              <span *ngIf="cvForm.fileName" class="selected-file-name">{{ cvForm.fileName }}</span>
+            </label>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-modal-submit" [disabled]="!cvForm.fullName || !cvForm.email || cvForm.loading">
+          <span *ngIf="!cvForm.loading">Envoyer ma candidature</span>
+          <span *ngIf="cvForm.loading"><i class="fas fa-spinner fa-spin"></i> Transmission en cours...</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL RECRUTEMENT / CONTACT ==================== -->
+  <div class="leop-modal-backdrop" *ngIf="showRecruitModal" (click)="closeRecruitModal()">
+    <div class="leop-modal-content" (click)="$event.stopPropagation()">
+      <button type="button" class="modal-close-btn" (click)="closeRecruitModal()">&times;</button>
+      <div class="modal-header">
+        <div class="modal-emblem-wrap">
+          <img src="assets/leop/emblem-transparent.png" alt="Leop" class="modal-emblem" />
+        </div>
+        <h3 class="modal-title">Confiez-nous vos recrutements</h3>
+        <p class="modal-subtitle">Un expert sectoriel Leop-Consulting vous répond sous 24h</p>
+      </div>
+
+      <div class="modal-alert-success" *ngIf="recruitForm.submitted">
+        <i class="fas fa-check-circle"></i>
+        <span>Votre demande a été transmise. Un consultant dédié va vous contacter rapidement.</span>
+      </div>
+
+      <form class="modal-form" *ngIf="!recruitForm.submitted" (ngSubmit)="submitRecruit()">
+        <div class="form-group">
+          <label>Entreprise *</label>
+          <input type="text" [(ngModel)]="recruitForm.companyName" name="companyName" placeholder="Nom de l'entreprise"
+            required />
+        </div>
+
+        <div class="form-group">
+          <label>Votre nom *</label>
+          <input type="text" [(ngModel)]="recruitForm.contactName" name="contactName" placeholder="Prénom et Nom"
+            required />
+        </div>
+
+        <div class="form-group">
+          <label>Email professionnel *</label>
+          <input type="email" [(ngModel)]="recruitForm.email" name="email" placeholder="contact@entreprise.com"
+            required />
+        </div>
+
+        <div class="form-group">
+          <label>Téléphone</label>
+          <input type="tel" [(ngModel)]="recruitForm.phone" name="phone" placeholder="+33 1 23 45 67 89" />
+        </div>
+
+        <div class="form-group">
+          <label>Poste à pourvoir</label>
+          <input type="text" [(ngModel)]="recruitForm.jobTitle" name="jobTitle"
+            placeholder="Ex: Directeur Technique, Chef de projet..." />
+        </div>
+
+        <div class="form-group">
+          <label>Message / Précisions</label>
+          <textarea [(ngModel)]="recruitForm.message" name="message" rows="3"
+            placeholder="Décrivez votre besoin en recrutement..."></textarea>
+        </div>
+
+        <button type="submit" class="btn-modal-submit" [disabled]="!recruitForm.companyName || !recruitForm.email">
+          Envoyer ma demande
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL VIDÉO BRAND ==================== -->
+  <div class="leop-modal-backdrop" *ngIf="showVideoModal" (click)="closeVideoModal()">
+    <div class="leop-modal-content video-modal-box" (click)="$event.stopPropagation()">
+      <button type="button" class="modal-close-btn" (click)="closeVideoModal()">&times;</button>
+      <div class="video-embed-container">
+        <div class="brand-video-placeholder">
+          <div class="video-brand-crest">
+            <img src="assets/leop/emblem-transparent.png" alt="Leop" class="crest-emblem" />
+          </div>
+          <h3>LEOP-CONSULTING</h3>
+          <p class="video-tagline">YOUR STRATEGY</p>
+          <p class="video-quote">« Ensemble, construisons votre avenir. »</p>
+          <button type="button" class="btn-close-video" (click)="closeVideoModal()">Fermer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
